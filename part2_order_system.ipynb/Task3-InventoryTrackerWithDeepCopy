@@ -1,0 +1,41 @@
+import copy
+
+inventory = {
+    "Panner Tikka": {"stock": 10, "reorder_level": 3},
+    "Chicken Wings": {"stock": 8, "reorder_level": 2},
+    "Veg Soup": {"stock": 15, "reorder_level": 5},
+    "Butter Chicken": {"stock": 12, "reorder_level": 4},
+    "Dal Tadka": {"stock": 20, "reorder_level": 5},
+    "Veg Biryani": {"stock": 6, "reorder_level": 3},
+    "Garlic Naan": {"stock": 30, "reorder_level": 10},
+    "Gulab Jamun": {"stock": 5, "reorder_level": 2},
+    "Rasgulla": {"stock": 4, "reorder_level": 3},
+    "Ice Cream": {"stock": 7, "reorder_level": 4},
+}
+
+inventory_backup = copy.deepcopy(inventory)
+
+# Demonstrate deep copy
+inventory["Panner Tikka"]["stock"] = 99
+print("Modified Inventory:", inventory["Panner Tikka"])
+print("Backup Inventory:", inventory_backup["Panner Tikka"])
+
+# Restore
+inventory = copy.deepcopy(inventory_backup)
+
+# Deduct quantities from final cart
+for entry in cart:
+    item, qty = entry["item"], entry["quantity"]
+    if inventory[item]["stock"] >= qty:
+        inventory[item]["stock"] -= qty
+    else:
+        print(f"⚠ Insufficient stock for {item}. Deducting only {inventory[item]['stock']} units.")
+        inventory[item]["stock"] = 0
+
+# Reorder alerts
+for item, details in inventory.items():
+    if details["stock"] <= details["reorder_level"]:
+        print(f"⚠ Reorder Alert: {item} - Only {details['stock']} unit(s) left (reorder level: {details['reorder_level']})")
+
+print("\nFinal Inventory:", inventory)
+print("Backup Inventory:", inventory_backup)

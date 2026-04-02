@@ -1,0 +1,38 @@
+sales_log = {
+    "2025-01-01": [
+        {"order_id": 1, "items": ["Panner Tikka", "Garlic Naan"], "total": 220.0},
+        {"order_id": 2, "items": ["Gulab Jamun", "Veg Soup"], "total": 210.0},
+        {"order_id": 3, "items": ["Butter Chicken", "Garlic Naan"], "total": 360.0},
+    ],
+    "2025-01-02": [
+        {"order_id": 4, "items": ["Dal Tadka", "Garlic Naan"], "total": 220.0},
+        {"order_id": 5, "items": ["Veg Biryani", "Gulab Jamun"], "total": 340.0},
+    ],
+    "2025-01-03": [
+        {"order_id": 6, "items": ["Panner Tikka", "Rasgulla"], "total": 260.0},
+        {"order_id": 7, "items": ["Butter Chicken", "Veg Biryani"], "total": 570.0},
+        {"order_id": 8, "items": ["Garlic Naan", "Gulab Jamun"], "total": 130.0},
+    ]
+    "2025-01-04": [
+        {"order_id": 9, "items":["Dal Tadka", "Garlic Naan", "Rasgulla"], "total": 300.0},
+        {"order_id": 10, "items": ["Panner Tikka", "Gulab Jamun"], "total": 270.0},
+    ],
+}
+
+# Revenue per day
+revenues = {}
+for date, orders in sales_log.items():
+    revenues[date] = sum(order["total"] for order in orders)
+    print(f"{date}: ₹{revenue[date]: .2f}")
+
+best_day = max(revenues.items(), key=lambda x: x[1])
+print("best-selling day:", best_day)
+
+# Most ordered item
+from collections import Counter
+item_counts = Counter()
+for orders in sales_log.values():
+    for order in orders:
+        item_counts.update(order["items"])
+most_ordered = item_counts.most_common(1)[0]
+print("Most ordered item:", most_ordered)

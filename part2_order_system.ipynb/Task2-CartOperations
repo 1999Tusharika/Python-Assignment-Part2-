@@ -1,0 +1,49 @@
+cart = []
+
+def add_item(item, qty):
+    if item not in menu:
+        print(f"✗ {item} does not exist in menu.")
+        return
+    if not menu[item]["available"]:
+        print(f"✗ {item} is currently unavailable.")
+        return
+    for entry in cart:
+        if entry["item"] == item:
+            entry["quantity"] += qty
+            return
+    cart.append({"item": item, "quantity": qty, "price": menu[item]["price"]})
+
+def remove_item(item):
+    for entry in cart:
+        if entry["item"] == item:
+            cart.remove(entry)
+            return
+    print(f"✗ {item} not found in cart.")
+
+def print_cart():
+    print("Current Cart:", cart)
+
+
+# Simulate Sequence
+add_item("Panner Tikka", 2); print_cart()
+add_item("Gulab Jamun", 1); print_cart()
+add_item("Panner Tikka", 1); print_cart()
+add_item("Mystery Burger", 1); print_cart()
+add_item("Chicken Wings", 1); print_cart()
+remove_item("Gulab Jamun"); print_cart()
+
+
+# Order Summary
+print("\n========== Order Summary ==========")
+subtotal = 0
+for entry in cart:
+    line_total = entry["quantity"] * entry["price"]
+    subtotal += line_total
+    print(f"{entry['item']:<15} x{entry['quantity']}  ₹{line_total: .2f}")
+print("------------------------------------")
+gst = subtotal * 0.05
+total = subtotal + gst
+print(f"Subtotal:       ₹{subtotal: .2f}")
+print(f"GST (5%):       ₹{gst: .2f}")
+print(f"Total Payable:  ₹{total: .2f}")
+print("====================================")
